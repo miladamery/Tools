@@ -1,0 +1,44 @@
+// Plugins
+['java', 'eclipse', 'maven'].each {
+	apply plugin: it
+}
+
+group = 'com.milad.api'
+version = '1.0'
+
+
+// JDK 8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//Directory Structure
+sourceSets {
+	main.java.srcDir 'src/main/java'
+	test.java.srcDir 'src/test/java'
+}
+
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+dependencies {
+	
+	compile group: 'com.ibm.icu', name: 'icu4j', version: '56.1'  
+	
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+jar {
+	from configurations.compile.collect { zipTree it }
+	//destinationDir = file("../jarFiles")
+	manifest {
+		attributes(
+			"BuildedBy": "Gradle 2.7",
+			"Author": "Milad Amery",
+			"ProjectTitle": "MiladAmery-Api",
+			"projectVersion": version,
+		)
+	}
+}
